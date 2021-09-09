@@ -1,5 +1,4 @@
 /*----- PROTECTED REGION ID(Serial2Client.cpp) ENABLED START -----*/
-static const char *RcsId = "$Id: Serial2Client.cpp,v 1.5 2018-07-09 13:58:05 alessio Exp $";
 //=============================================================================
 //
 // file :        Serial2Client.cpp
