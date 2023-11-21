@@ -162,6 +162,16 @@ void Serial2Client::init_device()
 	//	Initialize device
 	try {
 		device_proxy = new Tango::DeviceProxy(deviceName);
+
+		// Waiting the device
+		int retries = 0;
+		while(retries++ < 5) {
+			Tango::DevState state;
+			device_proxy->read_attribute("State") >> state;
+			if (state != Tango::INIT)
+				break;
+			sleep(1);
+		}
 	} catch( Tango::DevFailed &e ) {
 		init_error = "Initialization failed: " + string(e.errors[0].desc);
 	} catch( ... ) {
@@ -462,7 +472,7 @@ Tango::DevState Serial2Client::get_state2()
 	check_init();
 
 	Tango::DevState state;
-	device_proxy->read_attribute( "State" ) >> state;
+	device_proxy->read_attribute("State") >> state;
 	return state;
 }
 
@@ -471,7 +481,7 @@ string Serial2Client::get_status2()
 	check_init();
 
 	string status;
-	device_proxy->read_attribute( "Status" ) >> status;
+	device_proxy->read_attribute("Status") >> status;
 	return status;
 }
 
