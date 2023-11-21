@@ -198,37 +198,6 @@ protected:
 	void read(const Tango::DevLong len, string &data_readed);
 	void read_until(const char delim, string &data_readed);
 
-	// Methods for binary protocols (using Tango::DevVarCharArray)
-
-//	void write(const Tango::DevVarCharArray *data_to_write);
-
-/*
-	void write(const Tango::DevString *data_to_write);
-
-*/
-/*	void read(Tango::DeviceProxy &dp, const Tango::DevLong len,
-			Tango::DevVarCharArray &data_readed);
-
-	void read_until(Tango::DeviceProxy &dp,	const Tango::DevVarCharArray &delim,
-			Tango::DevVarCharArray &data_readed);
-*/
-/*
-	void write_and_read(Tango::DeviceProxy &dp, const Tango::DevVarCharArray &data_to_write,
-			const Tango::DevLong len, Tango::DevVarCharArray &data_readed);
-
-	void write_and_read_until(Tango::DeviceProxy &dp,
-			const Tango::DevVarCharArray &data_to_write, 
-			const Tango::DevVarCharArray &delim,
-			Tango::DevVarCharArray &data_readed);
-*/
-	// Methods for ascii protocols (using Tango::DevString)
-/*	void write_and_read(Tango::DeviceProxy &dp, const string &data_to_write,
-			const Tango::DevLong len, string &data_readed);
-
-	void write_and_read_until(Tango::DeviceProxy &dp, const string &data_to_write,
-			const string &delim, string &data_readed);
-*/
-
 	string dump_ascii(const vector<unsigned char> &data);
 	string dump_hex(const vector<unsigned char> &data);
 
