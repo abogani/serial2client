@@ -198,9 +198,6 @@ protected:
 	void read(const Tango::DevLong len, string &data_readed);
 	void read_until(const char delim, string &data_readed);
 
-	Tango::DevState get_state2();
-	string get_status2();
-
 	// Methods for binary protocols (using Tango::DevVarCharArray)
 
 //	void write(const Tango::DevVarCharArray *data_to_write);

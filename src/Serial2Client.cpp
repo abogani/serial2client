@@ -467,24 +467,6 @@ int Serial2Client::input_length()
 	return ret;
 }
 
-Tango::DevState Serial2Client::get_state2()
-{
-	check_init();
-
-	Tango::DevState state;
-	device_proxy->read_attribute("State") >> state;
-	return state;
-}
-
-string Serial2Client::get_status2()
-{
-	check_init();
-
-	string status;
-	device_proxy->read_attribute("Status") >> status;
-	return status;
-}
-
 string Serial2Client::dump_ascii(const vector<unsigned char> &data)
 {
 	stringstream mesg_ascii;
