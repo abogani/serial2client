@@ -1,8 +1,4 @@
 /*----- PROTECTED REGION ID(Serial2ClientClass.cpp) ENABLED START -----*/
-static const char *TagName    = "Serial2Client $Name:  $";
-static const char *CvsPath    = "$Source: /home/cvsadm/cvsroot/fermi/servers/serial2/src/Serial2ClientClass.cpp,v $";
-static const char *SvnPath    = "$HeadURL:  $";
-static const char *HttpServer = "http://www.esrf.eu/computing/cs/tango/tango_doc/ds_doc/";
 //=============================================================================
 //
 // file :        Serial2ClientClass.cpp
