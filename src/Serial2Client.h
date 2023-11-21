@@ -43,10 +43,21 @@
 
 /*----- PROTECTED REGION END -----*/	//	Serial2Client.h
 
+#ifdef TANGO_LOG
+	// cppTango after c934adea (Merge branch 'remove-cout-definition' into 'main', 2022-05-23)
+	// nothing to do
+#else
+	// cppTango 9.3-backports and older
+	#define TANGO_LOG       cout
+	#define TANGO_LOG_INFO  cout2
+	#define TANGO_LOG_DEBUG cout3
+#endif // TANGO_LOG
+
 /**
  *  Serial2Client class description:
  *    
  */
+
 
 namespace Serial2Client_ns
 {
@@ -71,7 +82,7 @@ private:
 //	Device property data members
 public:
 	//	DeviceName:	
-	string	deviceName;
+	std::string	deviceName;
 
 	bool	mandatoryNotDefined;
 
@@ -84,7 +95,7 @@ public:
 	 *	@param cl	Class.
 	 *	@param s 	Device Name
 	 */
-	Serial2Client(Tango::DeviceClass *cl,string &s);
+	Serial2Client(Tango::DeviceClass *cl,std::string &s);
 	/**
 	 * Constructs a newly device object.
 	 *
@@ -103,7 +114,7 @@ public:
 	/**
 	 * The device object destructor.
 	 */
-	~Serial2Client() {delete_device();};
+	~Serial2Client();
 
 
 //	Miscellaneous methods
@@ -134,17 +145,17 @@ public:
 public:
 	//--------------------------------------------------------
 	/*
-	 *	Method      : Serial2Client::read_attr_hardware()
-	 *	Description : Hardware acquisition for attributes.
+	 *	Method     : Serial2Client::read_attr_hardware()
+	 *	Description: Hardware acquisition for attributes.
 	 */
 	//--------------------------------------------------------
-	virtual void read_attr_hardware(vector<long> &attr_list);
+	virtual void read_attr_hardware(std::vector<long> &attr_list);
 
 
 	//--------------------------------------------------------
 	/**
-	 *	Method      : Serial2Client::add_dynamic_attributes()
-	 *	Description : Add dynamic attributes if any.
+	 *	Method     : Serial2Client::add_dynamic_attributes()
+	 *	Description: Add dynamic attributes if any.
 	 */
 	//--------------------------------------------------------
 	void add_dynamic_attributes();
@@ -158,8 +169,8 @@ public:
 
 	//--------------------------------------------------------
 	/**
-	 *	Method      : Serial2Client::add_dynamic_commands()
-	 *	Description : Add dynamic commands if any.
+	 *	Method     : Serial2Client::add_dynamic_commands()
+	 *	Description: Add dynamic commands if any.
 	 */
 	//--------------------------------------------------------
 	void add_dynamic_commands();

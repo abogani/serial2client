@@ -75,12 +75,12 @@ namespace Serial2Client_ns
 
 //--------------------------------------------------------
 /**
- *	Method      : Serial2Client::Serial2Client()
- *	Description : Constructors for a Tango device
+ *	Method     : Serial2Client::Serial2Client()
+ *	Description: Constructors for a Tango device
  *                implementing the classSerial2Client
  */
 //--------------------------------------------------------
-Serial2Client::Serial2Client(Tango::DeviceClass *cl, string &s)
+Serial2Client::Serial2Client(Tango::DeviceClass *cl, std::string &s)
  : TANGO_BASE_CLASS(cl, s.c_str())
 {
 	/*----- PROTECTED REGION ID(Serial2Client::constructor_1) ENABLED START -----*/
@@ -106,16 +106,21 @@ Serial2Client::Serial2Client(Tango::DeviceClass *cl, const char *s, const char *
 	
 	/*----- PROTECTED REGION END -----*/	//	Serial2Client::constructor_3
 }
+//--------------------------------------------------------
+Serial2Client::~Serial2Client()
+{
+	delete_device();
+}
 
 //--------------------------------------------------------
 /**
- *	Method      : Serial2Client::delete_device()
- *	Description : will be called at device destruction or at init command
+ *	Method     : Serial2Client::delete_device()
+ *	Description: will be called at device destruction or at init command
  */
 //--------------------------------------------------------
 void Serial2Client::delete_device()
 {
-	DEBUG_STREAM << "Serial2Client::delete_device() " << device_name << endl;
+	DEBUG_STREAM << "Serial2Client::delete_device() " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(Serial2Client::delete_device) ENABLED START -----*/
 	
 	//	Delete device allocated objects
@@ -129,13 +134,13 @@ void Serial2Client::delete_device()
 
 //--------------------------------------------------------
 /**
- *	Method      : Serial2Client::init_device()
- *	Description : will be called at device initialization.
+ *	Method     : Serial2Client::init_device()
+ *	Description: will be called at device initialization.
  */
 //--------------------------------------------------------
 void Serial2Client::init_device()
 {
-	DEBUG_STREAM << "Serial2Client::init_device() create device " << device_name << endl;
+	DEBUG_STREAM << "Serial2Client::init_device() create device " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(Serial2Client::init_device_before) ENABLED START -----*/
 	
 	//	Initialization before get_device_property() call
@@ -143,12 +148,12 @@ void Serial2Client::init_device()
 	init_error.clear();
 	
 	/*----- PROTECTED REGION END -----*/	//	Serial2Client::init_device_before
-	
+
 
 	//	Get the device properties from database
 	get_device_property();
-	
-	//	No longer if mandatory property not set. 
+
+	//	No longer if mandatory property not set.
 	if (mandatoryNotDefined)
 		return;
 
@@ -172,8 +177,8 @@ void Serial2Client::init_device()
 
 //--------------------------------------------------------
 /**
- *	Method      : Serial2Client::get_device_property()
- *	Description : Read database to initialize property data members.
+ *	Method     : Serial2Client::get_device_property()
+ *	Description: Read database to initialize property data members.
  */
 //--------------------------------------------------------
 void Serial2Client::get_device_property()
@@ -196,7 +201,7 @@ void Serial2Client::get_device_property()
 		//	Call database and extract values
 		if (Tango::Util::instance()->_UseDb==true)
 			get_db_device()->get_property(dev_prop);
-	
+
 		//	get instance on Serial2ClientClass to get class property
 		Tango::DbDatum	def_prop, cl_prop;
 		Serial2ClientClass	*ds_class =
@@ -226,8 +231,8 @@ void Serial2Client::get_device_property()
 }
 //--------------------------------------------------------
 /**
- *	Method      : Serial2Client::check_mandatory_property()
- *	Description : For mandatory properties check if defined in database.
+ *	Method     : Serial2Client::check_mandatory_property()
+ *	Description: For mandatory properties check if defined in database.
  */
 //--------------------------------------------------------
 void Serial2Client::check_mandatory_property(Tango::DbDatum &class_prop, Tango::DbDatum &dev_prop)
@@ -236,14 +241,12 @@ void Serial2Client::check_mandatory_property(Tango::DbDatum &class_prop, Tango::
 	if (class_prop.is_empty() && dev_prop.is_empty())
 	{
 		TangoSys_OMemStream	tms;
-		tms << endl <<"Property \'" << dev_prop.name;
+		tms << std::endl <<"Property \'" << dev_prop.name;
 		if (Tango::Util::instance()->_UseDb==true)
 			tms << "\' is mandatory but not defined in database";
 		else
 			tms << "\' is mandatory but cannot be defined without database";
-		string	status(get_status());
-		status += tms.str();
-		set_status(status);
+		append_status(tms.str());
 		mandatoryNotDefined = true;
 		/*----- PROTECTED REGION ID(Serial2Client::check_mandatory_property) ENABLED START -----*/
 		cerr << tms.str() << " for " << device_name << endl;
@@ -255,19 +258,18 @@ void Serial2Client::check_mandatory_property(Tango::DbDatum &class_prop, Tango::
 
 //--------------------------------------------------------
 /**
- *	Method      : Serial2Client::always_executed_hook()
- *	Description : method always executed before any command is executed
+ *	Method     : Serial2Client::always_executed_hook()
+ *	Description: method always executed before any command is executed
  */
 //--------------------------------------------------------
 void Serial2Client::always_executed_hook()
 {
-	DEBUG_STREAM << "Serial2Client::always_executed_hook()  " << device_name << endl;
+	DEBUG_STREAM << "Serial2Client::always_executed_hook()  " << device_name << std::endl;
 	if (mandatoryNotDefined)
 	{
-		string	status(get_status());
 		Tango::Except::throw_exception(
 					(const char *)"PROPERTY_NOT_SET",
-					status.c_str(),
+					get_status().c_str(),
 					(const char *)"Serial2Client::always_executed_hook()");
 	}
 	/*----- PROTECTED REGION ID(Serial2Client::always_executed_hook) ENABLED START -----*/
@@ -283,13 +285,13 @@ void Serial2Client::always_executed_hook()
 
 //--------------------------------------------------------
 /**
- *	Method      : Serial2Client::read_attr_hardware()
- *	Description : Hardware acquisition for attributes
+ *	Method     : Serial2Client::read_attr_hardware()
+ *	Description: Hardware acquisition for attributes
  */
 //--------------------------------------------------------
-void Serial2Client::read_attr_hardware(TANGO_UNUSED(vector<long> &attr_list))
+void Serial2Client::read_attr_hardware(TANGO_UNUSED(std::vector<long> &attr_list))
 {
-	DEBUG_STREAM << "Serial2Client::read_attr_hardware(vector<long> &attr_list) entering... " << endl;
+	DEBUG_STREAM << "Serial2Client::read_attr_hardware(std::vector<long> &attr_list) entering... " << std::endl;
 	/*----- PROTECTED REGION ID(Serial2Client::read_attr_hardware) ENABLED START -----*/
 	
 	//	Add your own code
@@ -301,8 +303,8 @@ void Serial2Client::read_attr_hardware(TANGO_UNUSED(vector<long> &attr_list))
 
 //--------------------------------------------------------
 /**
- *	Method      : Serial2Client::add_dynamic_attributes()
- *	Description : Create the dynamic attributes if any
+ *	Method     : Serial2Client::add_dynamic_attributes()
+ *	Description: Create the dynamic attributes if any
  *                for specified device.
  */
 //--------------------------------------------------------
@@ -317,8 +319,8 @@ void Serial2Client::add_dynamic_attributes()
 
 //--------------------------------------------------------
 /**
- *	Method      : Serial2Client::add_dynamic_commands()
- *	Description : Create the dynamic commands if any
+ *	Method     : Serial2Client::add_dynamic_commands()
+ *	Description: Create the dynamic commands if any
  *                for specified device.
  */
 //--------------------------------------------------------
