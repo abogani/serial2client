@@ -160,15 +160,11 @@ void Serial2Client::init_device()
 	/*----- PROTECTED REGION ID(Serial2Client::init_device) ENABLED START -----*/
 	
 	//	Initialize device
-	try
-	{
+	try {
 		device_proxy = new Tango::DeviceProxy(deviceName);
-	} catch( Tango::DevFailed &e )
-	{
+	} catch( Tango::DevFailed &e ) {
 		init_error = "Initialization failed: " + string(e.errors[0].desc);
-	}
-	catch( ... )
-	{
+	} catch( ... ) {
 		init_error = "Initialization failed: unknown reason";
 	}
 	
@@ -479,86 +475,6 @@ string Serial2Client::get_status2()
 	return status;
 }
 
-/*
-void StreamClient::read(Tango::DeviceProxy &dp, const Tango::DevLong len,
-		Tango::DevVarCharArray &data_readed)
-{
-	Tango::DeviceData dtr, dtr_len;
-	dtr_len << len;
-
-	dtr = dp.command_inout("Read", dtr_len);
-	const Tango::DevVarCharArray *dvca;
-	dtr >> dvca;
-	data_readed.length(dvca->length());
-	for (unsigned int i=0; i<dvca->length(); ++i)
-		data_readed[i] = (*dvca)[i];
-}
-
-void StreamClient::read_until(Tango::DeviceProxy &dp,
-		const Tango::DevVarCharArray &delim,
-		Tango::DevVarCharArray &data_readed)
-{
-	Tango::DeviceData dtr, d;
-	Tango::DevVarCharArray *temp = new Tango::DevVarCharArray();
-	temp->length(delim.length());
-	for (unsigned int i=0; i<delim.length(); ++i)
-		(*temp)[i] = delim[i];
-	d << temp;
-	dtr = dp.command_inout("ReadUntil", d);
-	const Tango::DevVarCharArray *dvca;
-	dtr >> dvca;
-	data_readed.length(dvca->length());
-	for (unsigned int i=0; i<dvca->length(); ++i)
-		data_readed[i] = (*dvca)[i];
-}
-
-*/
-/*
-void Serial2Client::write(const Tango::DevVarCharArray *data_to_write)
-{
-	Tango::DeviceData dtw;
-	dtw << data_to_write;
-	device_proxy->command_inout("Write", dtw);
-}
-*/
-/*
-void StreamClient::write(const Tango::DevString *data_to_write)
-{
-}
-
-void StreamClient::write_and_read(Tango::DeviceProxy &dp,
-		const Tango::DevVarCharArray &data_to_write,
-		const Tango::DevLong len, Tango::DevVarCharArray &data_readed)
-{
-	write(dp, data_to_write);
-	read(dp, len, data_readed);
-}
-
-void StreamClient::write_and_read(Tango::DeviceProxy &dp,
-		const string &data_to_write, const Tango::DevLong len,
-		string &data_readed)
-{
-	write(dp, data_to_write);
-	read(dp, len, data_readed);
-}
-
-void StreamClient::write_and_read_until(Tango::DeviceProxy &dp,
-		const Tango::DevVarCharArray &data_to_write,
-		const Tango::DevVarCharArray &delim,
-		Tango::DevVarCharArray &data_readed)
-{
-	write(dp, data_to_write);
-	read_until(dp, delim, data_readed);
-}
-
-void StreamClient::write_and_read_until(Tango::DeviceProxy &dp,
-		const string &data_to_write, const string &delim,
-		string &data_readed)
-{
-	write(dp, data_to_write);
-	read_until(dp, delim, data_readed);
-}
-*/
 string Serial2Client::dump_ascii(const vector<unsigned char> &data)
 {
 	stringstream mesg_ascii;
