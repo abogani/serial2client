@@ -75,6 +75,7 @@ class Serial2Client : public TANGO_BASE_CLASS
 //	Add your own data members
 private:
 	Tango::DeviceProxy *device_proxy;
+	Tango::DevLong deviceTimeout;
 	string init_error;
 
 /*----- PROTECTED REGION END -----*/	//	Serial2Client::Data Members
@@ -83,7 +84,6 @@ private:
 public:
 	//	DeviceName:	
 	std::string	deviceName;
-
 	bool	mandatoryNotDefined;
 
 
@@ -178,6 +178,9 @@ public:
 /*----- PROTECTED REGION ID(Serial2Client::Additional Method prototypes) ENABLED START -----*/
 
 //	Additional Method prototypes
+public:
+	int get_timeout();
+
 private:
 	void check_init();
 	void write_(const vector<unsigned char> &data_to_write);

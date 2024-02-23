@@ -171,7 +171,13 @@ void Serial2Client::init_device()
 			if (state != Tango::INIT)
 				break;
 			sleep(1);
-		}
+	}
+		Tango::DbData db_data;
+		db_data.push_back(Tango::DbDatum("Timeout"));
+    Tango::Database *db = new Tango::Database();
+		db->get_device_property(deviceName, db_data);
+		db_data[0] >> deviceTimeout;
+
 	} catch( Tango::DevFailed &e ) {
 		init_error = "Initialization failed: " + string(e.errors[0].desc);
 	} catch( ... ) {
@@ -342,6 +348,13 @@ void Serial2Client::add_dynamic_commands()
 /*----- PROTECTED REGION ID(Serial2Client::namespace_ending) ENABLED START -----*/
 
 //	Additional Methods
+int Serial2Client::get_timeout()
+{
+	check_init();
+
+	return deviceTimeout;
+}
+
 void Serial2Client::check_init()
 {
 	if (! init_error.empty())
