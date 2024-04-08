@@ -341,7 +341,6 @@ void Serial2ClientClass::attribute_factory(std::vector<Tango::Attr *> &)
 	/*----- PROTECTED REGION ID(Serial2ClientClass::attribute_factory_before) ENABLED START -----*/
 	
 	//	Add your own code
-	(void)att_list;
 	
 	/*----- PROTECTED REGION END -----*/	//	Serial2ClientClass::attribute_factory_before
 
