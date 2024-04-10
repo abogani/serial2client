@@ -174,8 +174,7 @@ void Serial2Client::init_device()
 	}
 		Tango::DbData db_data;
 		db_data.push_back(Tango::DbDatum("Timeout"));
-    Tango::Database *db = new Tango::Database();
-		db->get_device_property(deviceName, db_data);
+		get_db_device()->get_dbase()->get_device_property(deviceName, db_data);
 		db_data[0] >> deviceTimeout;
 
 	} catch( Tango::DevFailed &e ) {
