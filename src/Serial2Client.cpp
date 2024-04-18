@@ -171,7 +171,7 @@ void Serial2Client::init_device()
 			if (state != Tango::INIT)
 				break;
 			sleep(1);
-	}
+		}
 		Tango::DbData db_data;
 		db_data.push_back(Tango::DbDatum("Timeout"));
 		get_db_device()->get_dbase()->get_device_property(deviceName, db_data);
@@ -410,7 +410,7 @@ void Serial2Client::write(const vector<unsigned char> &data_to_write)
 void Serial2Client::read(const Tango::DevLong len, vector<unsigned char> &data_to_read)
 {
 	read_(len, data_to_read);
-	
+
 	DEBUG_STREAM << "Readed " << data_to_read.size()
 		<< " byte(s): " << dump_hex(data_to_read) << endl;
 }
@@ -418,7 +418,7 @@ void Serial2Client::read(const Tango::DevLong len, vector<unsigned char> &data_t
 void Serial2Client::read_until(const unsigned char delim, vector<unsigned char> &data_to_read)
 {
 	read_until_(delim, data_to_read);
-	
+
 	DEBUG_STREAM << "Readed " << data_to_read.size()
 		<< " byte(s): " << dump_hex(data_to_read) << endl;
 }
@@ -443,7 +443,7 @@ void Serial2Client::read(const Tango::DevLong len, string &data_readed)
 	data_readed = "";
 	for (unsigned int i=0; i<data.size(); ++i)
 		data_readed += data[i];
-	
+
 	DEBUG_STREAM << "Readed " << data.size()
 		<< " byte(s): " << dump_ascii(data) << endl;
 }
@@ -456,7 +456,7 @@ void Serial2Client::read_until(const char delim, string &data_readed)
 	data_readed = "";
 	for (unsigned int i=0; i<data.size(); ++i)
 		data_readed += data[i];
-	
+
 	DEBUG_STREAM << "Readed " << data.size()
 		<< " byte(s): " << dump_ascii(data) << endl;
 }
