@@ -84,6 +84,7 @@ private:
 public:
 	//	DeviceName:	
 	std::string	deviceName;
+
 	bool	mandatoryNotDefined;
 
 
