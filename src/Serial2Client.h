@@ -44,11 +44,11 @@
 /*----- PROTECTED REGION END -----*/	//	Serial2Client.h
 
 #ifdef TANGO_LOG
-	// cppTango after c934adea (Merge branch 'remove-cout-definition' into 'main', 2022-05-23)
+	// cppTango after c934adea (Merge branch 'remove-std::cout-definition' into 'main', 2022-05-23)
 	// nothing to do
 #else
 	// cppTango 9.3-backports and older
-	#define TANGO_LOG       cout
+	#define TANGO_LOG       std::cout
 	#define TANGO_LOG_INFO  cout2
 	#define TANGO_LOG_DEBUG cout3
 #endif // TANGO_LOG
@@ -76,7 +76,7 @@ class Serial2Client : public TANGO_BASE_CLASS
 private:
 	Tango::DeviceProxy *device_proxy;
 	Tango::DevLong deviceTimeout;
-	string init_error;
+	std::string init_error;
 
 /*----- PROTECTED REGION END -----*/	//	Serial2Client::Data Members
 
@@ -184,26 +184,26 @@ public:
 
 private:
 	void check_init();
-	void write_(const vector<unsigned char> &data_to_write);
-	void read_(const Tango::DevLong len, vector<unsigned char> &data_to_read);
-	void read_until_(const unsigned char delim, vector<unsigned char> &data_to_read);
+	void write_(const std::vector<unsigned char> &data_to_write);
+	void read_(const Tango::DevLong len, std::vector<unsigned char> &data_to_read);
+	void read_until_(const unsigned char delim, std::vector<unsigned char> &data_to_read);
 
 protected:
 	int input_length();
 	int output_length();
 
 	// Methods for binary protocols (using std::vector<char>)
-	void write(const vector<unsigned char> &data_to_write);
-	void read(const Tango::DevLong len, vector<unsigned char> &data_to_read);
-	void read_until(const unsigned char delim, vector<unsigned char> &data_to_read);
+	void write(const std::vector<unsigned char> &data_to_write);
+	void read(const Tango::DevLong len, std::vector<unsigned char> &data_to_read);
+	void read_until(const unsigned char delim, std::vector<unsigned char> &data_to_read);
 
 	// Methods for ascii protocols (using std::string)
-	void write(const string &data_to_write);
-	void read(const Tango::DevLong len, string &data_readed);
-	void read_until(const char delim, string &data_readed);
+	void write(const std::string &data_to_write);
+	void read(const Tango::DevLong len, std::string &data_readed);
+	void read_until(const char delim, std::string &data_readed);
 
-	string dump_ascii(const vector<unsigned char> &data);
-	string dump_hex(const vector<unsigned char> &data);
+	std::string dump_ascii(const std::vector<unsigned char> &data);
+	std::string dump_hex(const std::vector<unsigned char> &data);
 
 /*----- PROTECTED REGION END -----*/	//	Serial2Client::Additional Method prototypes
 };

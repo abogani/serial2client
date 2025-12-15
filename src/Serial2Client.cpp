@@ -178,7 +178,7 @@ void Serial2Client::init_device()
 		db_data[0] >> deviceTimeout;
 
 	} catch( Tango::DevFailed &e ) {
-		init_error = "Initialization failed: " + string(e.errors[0].desc);
+		init_error = "Initialization failed: " + std::string(e.errors[0].desc);
 	} catch( ... ) {
 		init_error = "Initialization failed: unknown reason";
 	}
@@ -260,7 +260,7 @@ void Serial2Client::check_mandatory_property(Tango::DbDatum &class_prop, Tango::
 		append_status(tms.str());
 		mandatoryNotDefined = true;
 		/*----- PROTECTED REGION ID(Serial2Client::check_mandatory_property) ENABLED START -----*/
-		cerr << tms.str() << " for " << device_name << endl;
+		std::cerr << tms.str() << " for " << device_name << std::endl;
 		
 		/*----- PROTECTED REGION END -----*/	//	Serial2Client::check_mandatory_property
 	}
@@ -362,19 +362,19 @@ void Serial2Client::check_init()
 				"Serial2Client::check_init()");
 }
 
-void Serial2Client::write_(const vector<unsigned char> &data_to_write)
+void Serial2Client::write_(const std::vector<unsigned char> &data_to_write)
 {
 	check_init();
 
-	vector<unsigned char> *data_to_write_
-		= const_cast< vector<unsigned char>* >(&data_to_write);
+	std::vector<unsigned char> *data_to_write_
+		= const_cast< std::vector<unsigned char>* >(&data_to_write);
 
 	Tango::DeviceData dtw;
 	dtw << *data_to_write_;
 	device_proxy->command_inout("Write", dtw);
 }
 
-void Serial2Client::read_(const Tango::DevLong len, vector<unsigned char> &data_to_read)
+void Serial2Client::read_(const Tango::DevLong len, std::vector<unsigned char> &data_to_read)
 {
 	check_init();
 
@@ -385,11 +385,11 @@ void Serial2Client::read_(const Tango::DevLong len, vector<unsigned char> &data_
 	dtr >> data_to_read;
 }
 
-void Serial2Client::read_until_(const unsigned char delim, vector<unsigned char> &data_to_read)
+void Serial2Client::read_until_(const unsigned char delim, std::vector<unsigned char> &data_to_read)
 {
 	check_init();
 
-	vector<unsigned char> delim_;
+	std::vector<unsigned char> delim_;
 	delim_.push_back(delim);
 
 	Tango::DeviceData dtr, dtr_delim;
@@ -399,45 +399,45 @@ void Serial2Client::read_until_(const unsigned char delim, vector<unsigned char>
 	dtr >> data_to_read;
 }
 
-void Serial2Client::write(const vector<unsigned char> &data_to_write)
+void Serial2Client::write(const std::vector<unsigned char> &data_to_write)
 {
 	write_(data_to_write);
 
 	DEBUG_STREAM << "Written " << data_to_write.size()
-		<< " byte(s): " << dump_hex(data_to_write) << endl;
+		<< " byte(s): " << dump_hex(data_to_write) << std::endl;
 }
 
-void Serial2Client::read(const Tango::DevLong len, vector<unsigned char> &data_to_read)
+void Serial2Client::read(const Tango::DevLong len, std::vector<unsigned char> &data_to_read)
 {
 	read_(len, data_to_read);
 
 	DEBUG_STREAM << "Readed " << data_to_read.size()
-		<< " byte(s): " << dump_hex(data_to_read) << endl;
+		<< " byte(s): " << dump_hex(data_to_read) << std::endl;
 }
 
-void Serial2Client::read_until(const unsigned char delim, vector<unsigned char> &data_to_read)
+void Serial2Client::read_until(const unsigned char delim, std::vector<unsigned char> &data_to_read)
 {
 	read_until_(delim, data_to_read);
 
 	DEBUG_STREAM << "Readed " << data_to_read.size()
-		<< " byte(s): " << dump_hex(data_to_read) << endl;
+		<< " byte(s): " << dump_hex(data_to_read) << std::endl;
 }
 
-void Serial2Client::write(const string &data_to_write)
+void Serial2Client::write(const std::string &data_to_write)
 {
-	vector<unsigned char> data;
+	std::vector<unsigned char> data;
 	for (unsigned int i=0; i<data_to_write.size(); ++i)
 		data.push_back(data_to_write[i]);
 
 	write_(data);
 
 	DEBUG_STREAM << "Written " << data.size()
-		<< " byte(s): " << dump_ascii(data) << endl;
+		<< " byte(s): " << dump_ascii(data) << std::endl;
 }
 
-void Serial2Client::read(const Tango::DevLong len, string &data_readed)
+void Serial2Client::read(const Tango::DevLong len, std::string &data_readed)
 {
-	vector<unsigned char> data;
+	std::vector<unsigned char> data;
 	read_(len, data);
 
 	data_readed = "";
@@ -445,12 +445,12 @@ void Serial2Client::read(const Tango::DevLong len, string &data_readed)
 		data_readed += data[i];
 
 	DEBUG_STREAM << "Readed " << data.size()
-		<< " byte(s): " << dump_ascii(data) << endl;
+		<< " byte(s): " << dump_ascii(data) << std::endl;
 }
 
-void Serial2Client::read_until(const char delim, string &data_readed)
+void Serial2Client::read_until(const char delim, std::string &data_readed)
 {
-	vector<unsigned char> data;
+	std::vector<unsigned char> data;
 	read_until_(delim, data);
 
 	data_readed = "";
@@ -458,7 +458,7 @@ void Serial2Client::read_until(const char delim, string &data_readed)
 		data_readed += data[i];
 
 	DEBUG_STREAM << "Readed " << data.size()
-		<< " byte(s): " << dump_ascii(data) << endl;
+		<< " byte(s): " << dump_ascii(data) << std::endl;
 }
 
 int Serial2Client::output_length()
@@ -479,9 +479,9 @@ int Serial2Client::input_length()
 	return ret;
 }
 
-string Serial2Client::dump_ascii(const vector<unsigned char> &data)
+std::string Serial2Client::dump_ascii(const std::vector<unsigned char> &data)
 {
-	stringstream mesg_ascii;
+	std::stringstream mesg_ascii;
 
 	for (unsigned int i=0; i<data.size(); ++i) {
 		if (isspace((char)data[i])) {
@@ -494,13 +494,13 @@ string Serial2Client::dump_ascii(const vector<unsigned char> &data)
 	return mesg_ascii.str();
 }
 
-string Serial2Client::dump_hex(const vector<unsigned char> &data)
+std::string Serial2Client::dump_hex(const std::vector<unsigned char> &data)
 {
-	stringstream mesg_hex;
+	std::stringstream mesg_hex;
 
 	for (unsigned int i=0; i<data.size(); ++i) {
-		mesg_hex << setw(2) << setfill('0')
-			<< hex << (int)data[i] << " ";
+		mesg_hex << std::setw(2) << std::setfill('0')
+			<< std::hex << (int)data[i] << " ";
 	}
 
 	return mesg_hex.str();
