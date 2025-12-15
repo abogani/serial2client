@@ -412,7 +412,7 @@ void Serial2ClientClass::create_static_attribute_list(std::vector<Tango::Attr *>
 	for (unsigned long i=0 ; i<att_list.size() ; i++)
 	{
 		std::string att_name(att_list[i]->get_name());
-		transform(att_name.begin(), att_name.end(), att_name.begin(), ::tolower);
+		std::transform(att_name.begin(), att_name.end(), att_name.begin(), ::tolower);
 		defaultAttList.push_back(att_name);
 	}
 
